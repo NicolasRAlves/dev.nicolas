@@ -1,0 +1,2547 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Nicolas Rodrigues · Dev Web</title>
+    <meta name="claude:viewport-fit-sides" content="cover">
+    <meta name="description"
+        content="Nicolas Rodrigues: desenvolvedor web full stack em São Paulo. Sites, landing pages e sistemas web rápidos, responsivos e seguros, para empresas e pequenos negócios.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+    <style>
+        /* Layout: workshop-terminal — hero split (manifesto | mascote vivo), seções abertas por caminhos de terminal (~/sobre), laranja reservado ao mascote e às ações */
+        :root {
+            --bg: #0d0b0a;
+            --bg-2: #141110;
+            --panel: #1a1614;
+            --line: #2c2521;
+            --fg: #f5eee8;
+            --muted: #a99b90;
+            --dim: #6f645b;
+            --or: #ff7a1a;
+            --or-2: #ffa95e;
+            --or-soft: rgba(255, 122, 26, .12);
+            --or-ink: #1b0d02;
+            --skin: #d9a07a;
+            --skin-2: #c4855f;
+            --hair: #34200f;
+            --f-display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+            --f-body: "Figtree", "Segoe UI", system-ui, sans-serif;
+            --f-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", Menlo, monospace;
+            --r: 14px;
+            color-scheme: dark;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--fg);
+            font-family: var(--f-body);
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0 0 auto;
+            height: env(safe-area-inset-top, 0px);
+            z-index: 60;
+            background: var(--bg)
+        }
+
+        a {
+            color: inherit
+        }
+
+        ::selection {
+            background: var(--or);
+            color: var(--or-ink)
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--or);
+            outline-offset: 3px;
+            border-radius: 6px
+        }
+
+        .wrap {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding-left: max(20px, env(safe-area-inset-left, 0px));
+            padding-right: max(20px, env(safe-area-inset-right, 0px))
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: var(--f-display);
+            text-wrap: balance;
+            margin: 0;
+            line-height: 1.05;
+            letter-spacing: -.02em
+        }
+
+        p {
+            margin: 0
+        }
+
+        .mono {
+            font-family: var(--f-mono)
+        }
+
+        /* grain + glow atmosphere */
+        .atmo {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+            background:
+                radial-gradient(700px 500px at 85% -5%, rgba(255, 122, 26, .16), transparent 60%),
+                radial-gradient(600px 400px at -10% 40%, rgba(255, 122, 26, .06), transparent 60%),
+                var(--bg)
+        }
+
+        .atmo::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: .35;
+            background-image: radial-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px);
+            background-size: 22px 22px;
+            mask-image: linear-gradient(to bottom, #000 0%, transparent 70%)
+        }
+
+        /* NAV */
+        .nav {
+            position: sticky;
+            top: env(safe-area-inset-top, 0px);
+            z-index: 50;
+            background: rgba(13, 11, 10, .78);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--line)
+        }
+
+        .nav .wrap {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            height: 64px
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-family: var(--f-mono);
+            font-weight: 600;
+            font-size: 15px
+        }
+
+        .brand svg {
+            width: 36px;
+            height: 36px;
+            transition: transform .3s
+        }
+
+        .brand:hover svg {
+            transform: rotate(-10deg) scale(1.08)
+        }
+
+        .brand b {
+            color: var(--or)
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 4px;
+            margin-left: auto
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 14.5px;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 999px;
+            transition: color .2s, background .2s
+        }
+
+        .nav-links a:hover {
+            color: var(--fg);
+            background: var(--panel)
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--f-body);
+            font-weight: 700;
+            font-size: 15px;
+            text-decoration: none;
+            border: 0;
+            cursor: pointer;
+            padding: 12px 20px;
+            border-radius: 999px;
+            transition: transform .2s, background .2s, color .2s, box-shadow .2s;
+            white-space: nowrap
+        }
+
+        .btn-or {
+            background: var(--or);
+            color: var(--or-ink);
+            box-shadow: 0 6px 24px -8px rgba(255, 122, 26, .7)
+        }
+
+        .btn-or:hover {
+            transform: translateY(-2px);
+            background: var(--or-2)
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--fg);
+            border: 1px solid var(--line)
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--or);
+            color: var(--or-2)
+        }
+
+        .btn svg {
+            width: 18px;
+            height: 18px
+        }
+
+        .nav .btn {
+            padding: 9px 16px;
+            font-size: 14px
+        }
+
+        @media (max-width:860px) {
+            .nav-links {
+                display: none
+            }
+
+            .nav .btn {
+                margin-left: auto
+            }
+        }
+
+        /* HERO */
+        .hero {
+            padding-block: 56px 40px
+        }
+
+        .hero .wrap {
+            display: grid;
+            grid-template-columns: 1.12fr .88fr;
+            gap: 40px;
+            align-items: center
+        }
+
+        .hero-txt {
+            min-width: 0
+        }
+
+        .eyebrow {
+            font-family: var(--f-mono);
+            font-size: 13px;
+            color: var(--muted);
+            letter-spacing: .02em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap
+        }
+
+        .live {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 12px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: var(--bg-2);
+            color: var(--fg)
+        }
+
+        .live i {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #3ddc84;
+            box-shadow: 0 0 0 0 rgba(61, 220, 132, .6);
+            animation: ping 2s infinite
+        }
+
+        @keyframes ping {
+            70% {
+                box-shadow: 0 0 0 8px rgba(61, 220, 132, 0)
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(61, 220, 132, 0)
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 6.2vw, 78px);
+            font-weight: 800;
+            margin-top: 22px
+        }
+
+        .hero h1 .hl {
+            color: var(--or);
+            font-style: italic;
+            font-weight: 600;
+            position: relative;
+            white-space: nowrap
+        }
+
+        .hero h1 .hl::after {
+            content: "";
+            position: absolute;
+            left: 2%;
+            right: 2%;
+            bottom: .04em;
+            height: .12em;
+            background: var(--or);
+            opacity: .3;
+            border-radius: 4px;
+            transform-origin: left;
+            animation: draw 1.1s .5s cubic-bezier(.6, 0, .2, 1) both
+        }
+
+        @keyframes draw {
+            from {
+                transform: scaleX(0)
+            }
+
+            to {
+                transform: scaleX(1)
+            }
+        }
+
+        .hero h1 .dim {
+            color: var(--muted);
+            font-weight: 400
+        }
+
+        .who {
+            margin-top: 30px;
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            background: var(--bg-2);
+            padding: 18px;
+            max-width: 560px
+        }
+
+        .who-q {
+            font-family: var(--f-mono);
+            font-size: 12.5px;
+            color: var(--dim);
+            text-transform: uppercase;
+            letter-spacing: .08em
+        }
+
+        .seg {
+            display: flex;
+            gap: 6px;
+            margin-top: 10px;
+            padding: 4px;
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            width: fit-content;
+            max-width: 100%;
+            flex-wrap: wrap
+        }
+
+        .seg button {
+            font: 600 14px var(--f-body);
+            color: var(--muted);
+            background: transparent;
+            border: 0;
+            border-radius: 999px;
+            padding: 8px 14px;
+            cursor: pointer;
+            transition: all .25s
+        }
+
+        .seg button[aria-pressed="true"] {
+            background: var(--or);
+            color: var(--or-ink)
+        }
+
+        .who p {
+            margin-top: 14px;
+            color: var(--muted);
+            font-size: 16px;
+            min-height: 3.2em
+        }
+
+        @media (max-width:480px) {
+            .seg {
+                width: 100%;
+                border-radius: 14px
+            }
+
+            .seg button {
+                flex: 1 1 100%;
+                border-radius: 10px
+            }
+
+            .mail {
+                border-radius: 14px
+            }
+        }
+
+        .who p strong {
+            color: var(--fg);
+            font-weight: 600
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 16px
+        }
+
+        /* MASCOT */
+        .stage {
+            position: relative;
+            aspect-ratio: 1/1.08;
+            max-width: 440px;
+            width: 100%;
+            margin-inline: auto
+        }
+
+        .stage::before {
+            content: "";
+            position: absolute;
+            inset: 0 2% 4%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 50% 38%, rgba(255, 122, 26, .38), rgba(255, 122, 26, .08) 58%, transparent 72%);
+            filter: blur(6px)
+        }
+
+        .ring {
+            position: absolute;
+            inset: 6% 2% 2%;
+            border: 1px dashed rgba(255, 122, 26, .28);
+            border-radius: 50%;
+            animation: spin 60s linear infinite
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        #nico {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: block;
+            cursor: pointer;
+            overflow: visible
+        }
+
+        #nico .bob {
+            animation: bob 4.5s ease-in-out infinite
+        }
+
+        @keyframes bob {
+            50% {
+                transform: translateY(-7px)
+            }
+        }
+
+        #nico .eye {
+            transform-box: fill-box;
+            transform-origin: center;
+            animation: blink 5.2s infinite
+        }
+
+        @keyframes blink {
+
+            0%,
+            92%,
+            100% {
+                transform: scaleY(1)
+            }
+
+            95% {
+                transform: scaleY(.08)
+            }
+        }
+
+        #nico .head {
+            transform-box: view-box;
+            transform-origin: 170px 240px;
+            transition: transform .35s cubic-bezier(.3, 1.4, .5, 1)
+        }
+
+        #nico.nod .head {
+            animation: nod .7s ease-in-out
+        }
+
+        @keyframes nod {
+
+            0%,
+            100% {
+                transform: rotate(0)
+            }
+
+            25% {
+                transform: rotate(-8deg) translateY(-4px)
+            }
+
+            60% {
+                transform: rotate(6deg)
+            }
+        }
+
+        #nico .mouth-o {
+            opacity: 0
+        }
+
+        #nico.surprised .mouth-smile {
+            opacity: 0
+        }
+
+        #nico.surprised .mouth-o {
+            opacity: 1
+        }
+
+        #nico.surprised .brow {
+            transform: translateY(-5px)
+        }
+
+        #nico .brow {
+            transition: transform .25s
+        }
+
+        #nico .tee {
+            fill: #1f1a17
+        }
+
+        #nico .tee-edge {
+            fill: none;
+            stroke: rgba(255, 169, 94, .28);
+            stroke-width: 2
+        }
+
+        #nico .strap {
+            fill: none;
+            stroke: #37302b;
+            stroke-width: 18
+        }
+
+        #nico .ring-d {
+            fill: none;
+            stroke: #8a8079;
+            stroke-width: 3
+        }
+
+        #nico .afro-rim {
+            fill: var(--or-2);
+            stroke: var(--or-2);
+            stroke-width: 7;
+            opacity: .45
+        }
+
+        #nico .afro-fill {
+            fill: var(--hair)
+        }
+
+        #nico .curl {
+            fill: none;
+            stroke: #6e4630;
+            stroke-width: 2.3;
+            stroke-linecap: round;
+            opacity: .75
+        }
+
+        #nico .lens {
+            fill: rgba(255, 255, 255, .07);
+            stroke: #4b4541;
+            stroke-width: 2.6
+        }
+
+        #nico .frame-top {
+            fill: none;
+            stroke: #2b2522;
+            stroke-width: 4.5;
+            stroke-linecap: round
+        }
+
+        #nico .frame {
+            fill: none;
+            stroke: #4b4541;
+            stroke-width: 2.6;
+            stroke-linecap: round
+        }
+
+        #nico .skin {
+            fill: var(--skin)
+        }
+
+        #nico .skin-2 {
+            fill: var(--skin-2)
+        }
+
+        #nico .hair {
+            fill: var(--hair)
+        }
+
+        #nico .white {
+            fill: #fff8f2
+        }
+
+        #nico .ink {
+            fill: #1a1310
+        }
+
+        #nico .stroke-ink {
+            stroke: #1a1310;
+            fill: none;
+            stroke-width: 4;
+            stroke-linecap: round
+        }
+
+        #nico .blush {
+            fill: #ff7a5c;
+            opacity: .25
+        }
+
+        .bubble {
+            position: absolute;
+            top: 2%;
+            left: -4%;
+            max-width: 60%;
+            background: var(--fg);
+            color: var(--bg);
+            font: 600 14.5px/1.35 var(--f-body);
+            padding: 10px 14px;
+            border-radius: 16px 16px 16px 4px;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, .6);
+            transition: opacity .3s, transform .3s;
+            z-index: 3
+        }
+
+        .bubble.swap {
+            opacity: 0;
+            transform: translateY(6px)
+        }
+
+        .chip {
+            position: absolute;
+            z-index: 2;
+            display: grid;
+            place-items: center;
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: var(--panel);
+            border: 1px solid var(--line);
+            font: 600 14px var(--f-mono);
+            color: var(--or-2);
+            box-shadow: 0 10px 30px -12px rgba(0, 0, 0, .8);
+            animation: float 6s ease-in-out infinite
+        }
+
+        .chip svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--or-2);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-10px) rotate(4deg)
+            }
+        }
+
+        .c1 {
+            top: 20%;
+            right: -2%;
+            animation-delay: -1s
+        }
+
+        .c2 {
+            top: 52%;
+            right: -6%;
+            animation-delay: -3s
+        }
+
+        .c3 {
+            bottom: 8%;
+            left: 2%;
+            animation-delay: -2s
+        }
+
+        .c4 {
+            top: 42%;
+            left: -6%;
+            animation-delay: -4.5s
+        }
+
+        @media (max-width:900px) {
+            .hero .wrap {
+                grid-template-columns: 1fr
+            }
+
+            .stage {
+                max-width: 340px
+            }
+
+            .bubble {
+                left: 0
+            }
+        }
+
+        @media (max-width:480px) {
+            .chip {
+                width: 44px;
+                height: 44px
+            }
+
+            .c2 {
+                right: 0
+            }
+
+            .c4 {
+                left: 0
+            }
+        }
+
+        /* STATUS STRIP */
+        .strip {
+            border-block: 1px solid var(--line);
+            background: var(--bg-2);
+            overflow: hidden
+        }
+
+        .strip-track {
+            display: flex;
+            gap: 44px;
+            width: max-content;
+            padding-block: 16px;
+            animation: marq 38s linear infinite;
+            font-family: var(--f-mono);
+            font-size: 14px;
+            color: var(--muted)
+        }
+
+        .strip-track span {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap
+        }
+
+        .strip-track span::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            background: var(--or);
+            transform: rotate(45deg)
+        }
+
+        @keyframes marq {
+            to {
+                transform: translateX(-50%)
+            }
+        }
+
+        /* SECTIONS */
+        section {
+            padding-block: 96px 0
+        }
+
+        .sec-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 40px
+        }
+
+        .path {
+            font-family: var(--f-mono);
+            font-size: 14px;
+            color: var(--or);
+            margin-bottom: 12px
+        }
+
+        .path span {
+            color: var(--dim)
+        }
+
+        .sec-head h2 {
+            font-size: clamp(32px, 4.4vw, 54px);
+            font-weight: 800;
+            max-width: 16ch
+        }
+
+        .sec-head p {
+            color: var(--muted);
+            max-width: 42ch
+        }
+
+        /* ABOUT */
+        .about {
+            display: grid;
+            grid-template-columns: 1.25fr .75fr;
+            gap: 48px;
+            align-items: start
+        }
+
+        .about-txt {
+            min-width: 0;
+            display: grid;
+            gap: 18px;
+            font-size: 18px;
+            color: var(--muted);
+            max-width: 62ch
+        }
+
+        .about-txt strong {
+            color: var(--fg);
+            font-weight: 600
+        }
+
+        .spec {
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            background: var(--bg-2);
+            overflow: hidden
+        }
+
+        .spec-top {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--line);
+            font: 500 12.5px var(--f-mono);
+            color: var(--dim)
+        }
+
+        .spec-top i {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--line)
+        }
+
+        .spec-top i:first-child {
+            background: var(--or)
+        }
+
+        .spec-top span {
+            margin-left: 8px
+        }
+
+        .spec dl {
+            margin: 0;
+            padding: 6px 18px 14px;
+            font-family: var(--f-mono);
+            font-size: 14px
+        }
+
+        .spec dl div {
+            display: grid;
+            grid-template-columns: 110px 1fr;
+            gap: 12px;
+            padding-block: 10px;
+            border-bottom: 1px dashed var(--line)
+        }
+
+        .spec dl div:last-child {
+            border-bottom: 0
+        }
+
+        .spec dt {
+            color: var(--dim)
+        }
+
+        .spec dd {
+            margin: 0;
+            color: var(--fg);
+            min-width: 0
+        }
+
+        .spec dd em {
+            font-style: normal;
+            color: var(--or-2)
+        }
+
+        .badge-done {
+            display: inline-block;
+            font-size: 11.5px;
+            padding: 1px 8px;
+            margin-left: 6px;
+            border-radius: 999px;
+            background: rgba(61, 220, 132, .14);
+            color: #6ee7a8;
+            vertical-align: 1px
+        }
+
+        @media (max-width:860px) {
+            .about {
+                grid-template-columns: 1fr
+            }
+        }
+
+        /* SERVICES */
+        .svc-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px
+        }
+
+        .svc {
+            position: relative;
+            padding: 28px;
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            background: var(--bg-2);
+            display: grid;
+            gap: 12px;
+            align-content: start;
+            transition: border-color .3s, transform .3s;
+            overflow: hidden
+        }
+
+        .svc:hover {
+            border-color: rgba(255, 122, 26, .55);
+            transform: translateY(-3px)
+        }
+
+        .svc::after {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            right: -60px;
+            top: -60px;
+            border-radius: 50%;
+            background: var(--or-soft);
+            opacity: 0;
+            transition: opacity .3s
+        }
+
+        .svc:hover::after {
+            opacity: 1
+        }
+
+        .svc-ico {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: var(--or-soft);
+            color: var(--or)
+        }
+
+        .svc-ico svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.9;
+            stroke-linecap: round;
+            stroke-linejoin: round
+        }
+
+        .svc h3 {
+            font-size: 24px;
+            font-weight: 600
+        }
+
+        .svc p {
+            color: var(--muted)
+        }
+
+        .svc ul {
+            list-style: none;
+            padding: 0;
+            margin: 4px 0 0;
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap
+        }
+
+        .svc li {
+            font: 500 12.5px var(--f-mono);
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 3px 10px
+        }
+
+        @media (max-width:760px) {
+            .svc-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .process {
+            margin-top: 22px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            overflow: hidden
+        }
+
+        .step {
+            padding: 24px;
+            border-right: 1px solid var(--line);
+            display: grid;
+            gap: 8px;
+            align-content: start
+        }
+
+        .step:last-child {
+            border-right: 0
+        }
+
+        .step b {
+            font: 600 13px var(--f-mono);
+            color: var(--or)
+        }
+
+        .step h4 {
+            margin: 0;
+            font: 600 19px var(--f-display)
+        }
+
+        .step p {
+            color: var(--muted);
+            font-size: 15px
+        }
+
+        @media (max-width:860px) {
+            .process {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .step:nth-child(2) {
+                border-right: 0
+            }
+
+            .step:nth-child(-n+2) {
+                border-bottom: 1px solid var(--line)
+            }
+        }
+
+        @media (max-width:480px) {
+            .process {
+                grid-template-columns: 1fr
+            }
+
+            .step {
+                border-right: 0;
+                border-bottom: 1px solid var(--line)
+            }
+
+            .step:last-child {
+                border-bottom: 0
+            }
+        }
+
+        /* STACK */
+        .stack {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px
+        }
+
+        .lane {
+            padding: 24px;
+            border-top: 2px solid var(--line);
+            display: grid;
+            gap: 14px;
+            align-content: start;
+            transition: border-color .3s
+        }
+
+        .lane:hover {
+            border-top-color: var(--or)
+        }
+
+        .lane h3 {
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .lane h3 span {
+            font: 500 12px var(--f-mono);
+            color: var(--dim)
+        }
+
+        .lane p {
+            color: var(--muted);
+            font-size: 15px
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px
+        }
+
+        .tags span {
+            font: 500 13px var(--f-mono);
+            padding: 5px 10px;
+            border-radius: 8px;
+            background: var(--panel);
+            color: var(--fg);
+            border: 1px solid var(--line)
+        }
+
+        .lane.sec .tags span {
+            border-color: rgba(255, 122, 26, .3)
+        }
+
+        @media (max-width:1000px) {
+            .stack {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+
+        @media (max-width:560px) {
+            .stack {
+                grid-template-columns: 1fr
+            }
+        }
+
+        /* EXPERIENCE */
+        .xp-grid {
+            display: grid;
+            grid-template-columns: 1.35fr .65fr;
+            gap: 48px
+        }
+
+        .timeline {
+            display: grid;
+            gap: 0;
+            position: relative;
+            min-width: 0
+        }
+
+        .job {
+            position: relative;
+            padding: 0 0 40px 34px;
+            border-left: 1px solid var(--line)
+        }
+
+        .job:last-child {
+            padding-bottom: 0
+        }
+
+        .job::before {
+            content: "";
+            position: absolute;
+            left: -7px;
+            top: 4px;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 2px solid var(--dim)
+        }
+
+        .job.now::before {
+            border-color: var(--or);
+            background: var(--or);
+            box-shadow: 0 0 0 5px var(--or-soft)
+        }
+
+        .job-when {
+            font: 500 13px var(--f-mono);
+            color: var(--dim)
+        }
+
+        .job.now .job-when {
+            color: var(--or)
+        }
+
+        .job h3 {
+            font-size: 26px;
+            font-weight: 600;
+            margin-top: 6px
+        }
+
+        .job h3 small {
+            font: 500 16px var(--f-body);
+            color: var(--muted);
+            letter-spacing: 0;
+            display: block;
+            margin-top: 6px
+        }
+
+        .job ul {
+            margin: 16px 0 0;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 10px;
+            color: var(--muted)
+        }
+
+        .job li {
+            position: relative;
+            padding-left: 20px
+        }
+
+        .job li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--or);
+            font-family: var(--f-mono)
+        }
+
+        .edu {
+            display: grid;
+            gap: 14px;
+            align-content: start
+        }
+
+        .edu-main {
+            padding: 24px;
+            border-radius: var(--r);
+            background: linear-gradient(160deg, rgba(255, 122, 26, .16), rgba(255, 122, 26, .03) 60%), var(--bg-2);
+            border: 1px solid rgba(255, 122, 26, .35)
+        }
+
+        .edu-main .mono {
+            font-size: 12.5px;
+            color: var(--or-2)
+        }
+
+        .edu-main h3 {
+            font-size: 24px;
+            margin-top: 8px;
+            font-weight: 600
+        }
+
+        .edu-main p {
+            color: var(--muted);
+            margin-top: 6px
+        }
+
+        .certs {
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            padding: 8px 20px
+        }
+
+        .cert {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding-block: 12px;
+            border-bottom: 1px dashed var(--line);
+            font-size: 15px
+        }
+
+        .cert:last-child {
+            border-bottom: 0
+        }
+
+        .cert span:last-child {
+            font: 500 12.5px var(--f-mono);
+            color: var(--dim);
+            text-align: right
+        }
+
+        @media (max-width:900px) {
+            .xp-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        /* PROJECTS */
+        .filters {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap
+        }
+
+        .filters button {
+            font: 600 14px var(--f-body);
+            color: var(--muted);
+            background: var(--bg-2);
+            border: 1px solid var(--line);
+            padding: 8px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all .2s
+        }
+
+        .filters button:hover {
+            color: var(--fg)
+        }
+
+        .filters button[aria-pressed="true"] {
+            color: var(--or-ink);
+            background: var(--or);
+            border-color: var(--or)
+        }
+
+        .filters button em {
+            font-style: normal;
+            font-family: var(--f-mono);
+            font-size: 12px;
+            opacity: .7;
+            margin-left: 4px
+        }
+
+        .proj-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px
+        }
+
+        .proj {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            background: var(--bg-2);
+            overflow: hidden;
+            transition: transform .3s, border-color .3s;
+            text-decoration: none
+        }
+
+        .proj:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 122, 26, .5)
+        }
+
+        .proj[hidden] {
+            display: none !important
+        }
+
+        .thumb {
+            aspect-ratio: 16/10;
+            max-width: 100%;
+            background: var(--panel);
+            border-bottom: 1px solid var(--line);
+            position: relative;
+            overflow: hidden
+        }
+
+        .thumb svg {
+            width: 100%;
+            height: 100%;
+            display: block
+        }
+
+        .thumb img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            object-position: top center;
+            transition: transform .6s cubic-bezier(.2, .8, .2, 1)
+        }
+
+        .proj:hover .thumb img {
+            transform: scale(1.04)
+        }
+
+        .domain {
+            font: 500 12.5px var(--f-mono);
+            color: var(--or-2)
+        }
+
+        .job li a {
+            color: var(--or-2)
+        }
+
+        .thumb .kind {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            font: 600 11.5px var(--f-mono);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            padding: 4px 9px;
+            border-radius: 6px;
+            background: rgba(13, 11, 10, .8);
+            color: var(--or-2);
+            border: 1px solid var(--line)
+        }
+
+        .proj-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1
+        }
+
+        .proj-body h3 {
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.2
+        }
+
+        .proj-body .where {
+            font: 500 12.5px var(--f-mono);
+            color: var(--dim)
+        }
+
+        .proj-body p {
+            color: var(--muted);
+            font-size: 15px;
+            flex: 1
+        }
+
+        .proj-foot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-top: 4px
+        }
+
+        .proj-foot .tags span {
+            font-size: 11.5px;
+            padding: 3px 8px
+        }
+
+        .go {
+            flex: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--line);
+            color: var(--fg);
+            transition: all .2s
+        }
+
+        .proj:hover .go {
+            background: var(--or);
+            border-color: var(--or);
+            color: var(--or-ink);
+            transform: rotate(-45deg)
+        }
+
+        .go svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2
+        }
+
+        .go.lock {
+            color: var(--dim)
+        }
+
+        .proj:hover .go.lock {
+            background: var(--panel);
+            border-color: var(--line);
+            color: var(--muted);
+            transform: none
+        }
+
+        @media (max-width:980px) {
+            .proj-grid {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+
+        @media (max-width:620px) {
+            .proj-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        /* CONTACT */
+        .contact {
+            margin-top: 96px;
+            margin-bottom: 40px;
+            border-radius: 24px;
+            border: 1px solid var(--line);
+            background: var(--bg-2);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr
+        }
+
+        .contact-l {
+            padding: 44px;
+            display: grid;
+            gap: 22px;
+            align-content: start;
+            background: radial-gradient(500px 300px at 0% 100%, rgba(255, 122, 26, .18), transparent 70%)
+        }
+
+        .contact-l h2 {
+            font-size: clamp(36px, 4.6vw, 58px);
+            font-weight: 800
+        }
+
+        .contact-l h2 span {
+            color: var(--or)
+        }
+
+        .contact-l p {
+            color: var(--muted);
+            max-width: 40ch
+        }
+
+        .mail {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            padding: 8px 8px 8px 18px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: var(--bg);
+            width: fit-content;
+            max-width: 100%
+        }
+
+        .mail code {
+            font: 500 15px var(--f-mono);
+            color: var(--fg);
+            user-select: all;
+            word-break: break-all
+        }
+
+        .mail button {
+            font: 600 13.5px var(--f-body);
+            border: 0;
+            background: var(--or);
+            color: var(--or-ink);
+            padding: 8px 14px;
+            border-radius: 999px;
+            cursor: pointer
+        }
+
+        .socials {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap
+        }
+
+        .contact-r {
+            padding: 44px;
+            border-left: 1px solid var(--line);
+            display: grid;
+            gap: 16px;
+            align-content: start;
+            min-width: 0
+        }
+
+        .contact-r h3 {
+            font-size: 22px;
+            font-weight: 600
+        }
+
+        .contact-r .hint {
+            color: var(--muted);
+            font-size: 15px;
+            margin-top: -8px
+        }
+
+        .field {
+            display: grid;
+            gap: 6px
+        }
+
+        .field label {
+            font: 500 12.5px var(--f-mono);
+            color: var(--dim);
+            text-transform: uppercase;
+            letter-spacing: .06em
+        }
+
+        .field select,
+        .field textarea {
+            font: 500 15px var(--f-body);
+            color: var(--fg);
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 11px 12px;
+            width: 100%
+        }
+
+        .field textarea {
+            resize: vertical;
+            min-height: 96px
+        }
+
+        .field select:focus,
+        .field textarea:focus {
+            outline: none;
+            border-color: var(--or)
+        }
+
+        .chips-pick {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px
+        }
+
+        .chips-pick button {
+            font: 500 14px var(--f-body);
+            color: var(--muted);
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 7px 12px;
+            cursor: pointer
+        }
+
+        .chips-pick button[aria-pressed="true"] {
+            color: var(--or-2);
+            border-color: var(--or);
+            background: var(--or-soft)
+        }
+
+        .brief-out {
+            font: 500 13.5px/1.55 var(--f-mono);
+            color: var(--muted);
+            background: var(--bg);
+            border: 1px dashed var(--line);
+            border-radius: 10px;
+            padding: 12px 14px;
+            white-space: pre-wrap;
+            word-break: break-word
+        }
+
+        .brief-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .toast {
+            font: 500 13px var(--f-mono);
+            color: #6ee7a8;
+            min-height: 1.2em
+        }
+
+        @media (max-width:860px) {
+            .contact {
+                grid-template-columns: 1fr
+            }
+
+            .contact-r {
+                border-left: 0;
+                border-top: 1px solid var(--line)
+            }
+
+            .contact-l,
+            .contact-r {
+                padding: 28px
+            }
+        }
+
+        footer {
+            border-top: 1px solid var(--line);
+            padding-block: 28px
+        }
+
+        footer .wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            font: 500 13.5px var(--f-mono);
+            color: var(--dim)
+        }
+
+        footer .brand {
+            color: var(--muted)
+        }
+
+        /* load motion (transform only — content always visible) */
+        .rise {
+            animation: rise .8s cubic-bezier(.2, .8, .2, 1) both
+        }
+
+        .rise.d1 {
+            animation-delay: .08s
+        }
+
+        .rise.d2 {
+            animation-delay: .16s
+        }
+
+        .rise.d3 {
+            animation-delay: .24s
+        }
+
+        @keyframes rise {
+            from {
+                transform: translateY(18px)
+            }
+
+            to {
+                transform: none
+            }
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="atmo" aria-hidden="true"></div>
+
+    <header class="nav">
+        <div class="wrap">
+            <a class="brand" href="#topo" aria-label="Início">
+                <svg viewBox="0 0 40 40" aria-hidden="true">
+                    <circle cx="20" cy="20" r="19" fill="#ff7a1a" />
+                    <g fill="#34200f">
+                        <circle cx="20" cy="13" r="11" />
+                        <circle cx="10" cy="15" r="5.5" />
+                        <circle cx="30" cy="15" r="5.5" />
+                        <circle cx="9" cy="21" r="4" />
+                        <circle cx="31" cy="21" r="4" />
+                    </g>
+                    <ellipse cx="20" cy="24" rx="9.5" ry="10.5" fill="#d9a07a" />
+                    <g fill="#34200f">
+                        <circle cx="13.5" cy="16" r="3.2" />
+                        <circle cx="18" cy="14.5" r="3.2" />
+                        <circle cx="22.5" cy="14.5" r="3.2" />
+                        <circle cx="27" cy="16" r="3.2" />
+                    </g>
+                    <g fill="none" stroke="#1a1310" stroke-width="1.3">
+                        <rect x="12" y="20.5" width="7" height="5" rx="1.2" />
+                        <rect x="21" y="20.5" width="7" height="5" rx="1.2" />
+                        <path d="M19 22.5h2" />
+                    </g>
+                    <path d="M17 29.6q3 1.6 6 0" stroke="#1a1310" stroke-width="1.5" fill="none"
+                        stroke-linecap="round" />
+                </svg>
+                <span>nicolas<b>.dev</b></span>
+            </a>
+            <nav class="nav-links" aria-label="Seções">
+                <a href="#sobre">Sobre</a>
+                <a href="#servicos">Serviços</a>
+                <a href="#stack">Stack</a>
+                <a href="#experiencia">Experiência</a>
+                <a href="#projetos">Projetos</a>
+            </nav>
+            <a class="btn btn-or" href="#contato">Vamos conversar</a>
+        </div>
+    </header>
+
+    <main id="topo">
+        <!-- HERO -->
+        <section class="hero" style="padding-top:56px">
+            <div class="wrap">
+                <div class="hero-txt">
+                    <div class="eyebrow rise">
+                        <span class="live"><i></i> Disponível para projetos</span>
+                        <span>// dev web full stack · São Paulo</span>
+                    </div>
+                    <h1 class="rise d1">Crio sites e sistemas web com <span
+                            class="hl">personalidade</span><span class="dim">.</span></h1>
+
+                    <div class="who rise d2">
+                        <div class="who-q">Você chegou aqui como…</div>
+                        <div class="seg" role="group" aria-label="Escolha seu perfil">
+                            <button type="button" id="mode-empresa" aria-pressed="true" data-mode="empresa">Empresa /
+                                recrutador</button>
+                            <button type="button" id="mode-site" aria-pressed="false" data-mode="site">Preciso de um
+                                site</button>
+                        </div>
+                        <p id="who-text"></p>
+                        <div class="hero-cta">
+                            <a class="btn btn-or" id="cta-main" href="#experiencia"></a>
+                            <a class="btn btn-ghost" id="cta-alt" href="#projetos"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stage rise d3">
+                    <div class="ring" aria-hidden="true"></div>
+                    <div class="bubble" id="bubble" aria-live="polite">Oi! Eu sou o Nico 👋</div>
+                    <div class="chip c1" aria-hidden="true">&lt;/&gt;</div>
+                    <div class="chip c2" aria-hidden="true"><svg viewBox="0 0 24 24">
+                            <path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z" />
+                            <path d="M9 12l2 2 4-4" />
+                        </svg></div>
+                    <div class="chip c3" aria-hidden="true"><svg viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="6" height="5" rx="1.2" />
+                            <rect x="15" y="3" width="6" height="5" rx="1.2" />
+                            <rect x="9" y="16" width="6" height="5" rx="1.2" />
+                            <path d="M6 8v3h12V8M12 11v5" />
+                        </svg></div>
+                    <div class="chip c4" aria-hidden="true">{ }</div>
+
+                    <svg id="nico" viewBox="0 0 340 380" role="img"
+                        aria-label="Mascote do Nicolas — clique nele">
+                        <defs><g id="afro-shape"><ellipse cx="170" cy="120" rx="92" ry="74"/><circle cx="228.9" cy="172" r="19"/><circle cx="243.8" cy="158.1" r="25.4"/><circle cx="253.7" cy="141.6" r="21"/><circle cx="257.9" cy="123.7" r="20.5"/><circle cx="256.1" cy="105.4" r="24.1"/><circle cx="248.4" cy="88.2" r="22.7"/><circle cx="235.4" cy="73.2" r="21.3"/><circle cx="217.9" cy="61.3" r="24.3"/><circle cx="197.2" cy="53.4" r="24.3"/><circle cx="174.6" cy="50.1" r="22.8"/><circle cx="151.7" cy="51.5" r="23.8"/><circle cx="130" cy="57.6" r="23.5"/><circle cx="111.1" cy="68" r="24.7"/><circle cx="96.2" cy="81.9" r="20.7"/><circle cx="86.3" cy="98.4" r="21.6"/><circle cx="82.1" cy="116.3" r="24"/><circle cx="83.9" cy="134.6" r="23.9"/><circle cx="91.6" cy="151.8" r="19.4"/><circle cx="104.6" cy="166.8" r="23.8"/><circle cx="82" cy="172" r="18"/><circle cx="258" cy="172" r="18"/><circle cx="90" cy="190" r="13"/><circle cx="250" cy="190" r="13"/></g></defs>
+                        <ellipse cx="170" cy="372" rx="110" ry="9" fill="#000" opacity=".35" />
+                        <g class="bob">
+                            <!-- corpo / camiseta preta -->
+                            <path class="tee" d="M60 380c0-68 40-114 110-114s110 46 110 114z" />
+                            <path class="tee-edge" d="M60 380c0-68 40-114 110-114s110 46 110 114" />
+                            <!-- pescoço + gola -->
+                            <path class="skin-2" d="M150 234h40v34c0 10-40 10-40 0z" />
+                            <path d="M146 271q24 20 48 0" stroke="#2e2622" stroke-width="7" fill="none"
+                                stroke-linecap="round" />
+                            <text x="153" y="332" font-family="JetBrains Mono, monospace" font-size="17"
+                                font-weight="600" fill="#ff7a1a">&lt;/&gt;</text>
+                            <!-- alças da mochila -->
+                            <path class="strap" d="M112 284c-5 32-7 62-5 96" />
+                            <path class="strap" d="M228 284c5 32 7 62 5 96" />
+                            <path class="ring-d" d="M102 330h16v9a8 8 0 0 1-16 0z" />
+                            <path class="ring-d" d="M224 330h16v9a8 8 0 0 1-16 0z" />
+
+                            <!-- cabeça -->
+                            <g class="head" id="head">
+                                <!-- volume do black power: contorno de luz + preenchimento -->
+                                <use href="#afro-shape" class="afro-rim" />
+                                <use href="#afro-shape" class="afro-fill" />
+                                <g class="curl">
+                                    <path d="M223.5 58.4a5.5 5.5 0 1 1 6.6 5" transform="rotate(332 229 58.4)"/><path d="M243.4 95.8a5 5 0 1 1 6 4.5" transform="rotate(301 248.4 95.8)"/><path d="M132.9 62.9a4.9 4.9 0 1 1 5.9 4.4" transform="rotate(154 137.8 62.9)"/><path d="M79.5 94.8a5 5 0 1 1 6 4.5" transform="rotate(239 84.5 94.8)"/><path d="M247 117.2a4.5 4.5 0 1 1 5.4 4" transform="rotate(146 251.5 117.2)"/><path d="M123.2 94.7a5.3 5.3 0 1 1 6.3 4.7" transform="rotate(120 128.5 94.7)"/><path d="M136.1 89.6a5.2 5.2 0 1 1 6.2 4.7" transform="rotate(286 141.3 89.6)"/><path d="M236 56.7a6.5 6.5 0 1 1 7.7 5.8" transform="rotate(28 242.5 56.7)"/><path d="M147.9 63a4.2 4.2 0 1 1 5.1 3.8" transform="rotate(359 152.1 63)"/><path d="M95.9 108.6a5.8 5.8 0 1 1 6.9 5.2" transform="rotate(50 101.7 108.6)"/><path d="M243.5 154.2a4.8 4.8 0 1 1 5.8 4.3" transform="rotate(4 248.3 154.2)"/><path d="M117.7 51.4a4 4 0 1 1 4.8 3.6" transform="rotate(222 121.7 51.4)"/><path d="M112.5 96.1a6.7 6.7 0 1 1 8 6" transform="rotate(43 119.2 96.1)"/><path d="M161.2 40.4a6.7 6.7 0 1 1 8.1 6.1" transform="rotate(229 167.9 40.4)"/><path d="M239.9 68.2a6.9 6.9 0 1 1 8.3 6.2" transform="rotate(204 246.8 68.2)"/><path d="M199.8 79.9a4.7 4.7 0 1 1 5.6 4.2" transform="rotate(75 204.4 79.9)"/><path d="M176.1 47.9a6.3 6.3 0 1 1 7.6 5.7" transform="rotate(252 182.4 47.9)"/><path d="M252 154.7a5.3 5.3 0 1 1 6.3 4.7" transform="rotate(89 257.2 154.7)"/><path d="M145.3 75.2a5.2 5.2 0 1 1 6.3 4.7" transform="rotate(319 150.5 75.2)"/><path d="M175.4 92.7a5.9 5.9 0 1 1 7 5.3" transform="rotate(265 181.3 92.7)"/><path d="M258.3 134.9a6.6 6.6 0 1 1 7.9 6" transform="rotate(331 264.9 134.9)"/><path d="M94.3 114.6a5.7 5.7 0 1 1 6.8 5.1" transform="rotate(278 100 114.6)"/><path d="M100.3 139.4a5.6 5.6 0 1 1 6.7 5" transform="rotate(202 105.9 139.4)"/><path d="M73.4 84.8a5.6 5.6 0 1 1 6.8 5.1" transform="rotate(73 79 84.8)"/><path d="M208.1 83.6a4.7 4.7 0 1 1 5.6 4.2" transform="rotate(237 212.8 83.6)"/><path d="M150.1 51.3a6.3 6.3 0 1 1 7.6 5.7" transform="rotate(296 156.4 51.3)"/><path d="M73 154.3a5.8 5.8 0 1 1 7 5.2" transform="rotate(261 78.8 154.3)"/><path d="M69 130.8a6.8 6.8 0 1 1 8.2 6.2" transform="rotate(69 75.8 130.8)"/><path d="M93.6 70.3a6 6 0 1 1 7.2 5.4" transform="rotate(88 99.7 70.3)"/><path d="M217.4 99.5a5.2 5.2 0 1 1 6.3 4.7" transform="rotate(22 222.7 99.5)"/><path d="M185.5 65.6a4.2 4.2 0 1 1 5.1 3.8" transform="rotate(98 189.7 65.6)"/><path d="M70.9 102a4.3 4.3 0 1 1 5.1 3.8" transform="rotate(84 75.2 102)"/><path d="M231.7 184.4a6.4 6.4 0 1 1 7.7 5.8" transform="rotate(238 238.1 184.4)"/><path d="M257 93.7a4.2 4.2 0 1 1 5.1 3.8" transform="rotate(123 261.2 93.7)"/><path d="M220.4 71.1a4.7 4.7 0 1 1 5.7 4.2" transform="rotate(287 225.1 71.1)"/><path d="M87.6 177.3a6.4 6.4 0 1 1 7.7 5.8" transform="rotate(229 94 177.3)"/>
+                                </g>
+                                <!-- orelhas + rosto -->
+                                <ellipse class="skin" cx="105" cy="186" rx="11" ry="15" />
+                                <ellipse class="skin" cx="235" cy="186" rx="11" ry="15" />
+                                <ellipse class="skin-2" cx="105" cy="188" rx="5" ry="8" opacity=".6" />
+                                <ellipse class="skin-2" cx="235" cy="188" rx="5" ry="8" opacity=".6" />
+                                <path class="skin"
+                                    d="M108 170c0-48 26-74 62-74s62 26 62 74c0 46-24 78-62 78s-62-32-62-78z" />
+                                <!-- barba rala no queixo -->
+                                <path d="M124 214q46 52 92 0" stroke="#2a1c16" stroke-width="12" fill="none"
+                                    stroke-linecap="round" opacity=".13" />
+                                <!-- couro cabeludo coberto: liga a franja ao volume de trás -->
+                                <path class="hair" d="M102 150c-4-40 26-70 68-70s72 30 68 70c-20-14-44-22-68-22s-48 8-68 22z" />
+                                <!-- franja cacheada na testa -->
+                                <g class="afro">
+                                    <circle class="hair" cx="118" cy="136" r="13"/><circle class="hair" cx="134" cy="124" r="14"/><circle class="hair" cx="154" cy="117" r="14"/><circle class="hair" cx="174" cy="115" r="14"/><circle class="hair" cx="194" cy="118" r="14"/><circle class="hair" cx="212" cy="126" r="13"/><circle class="hair" cx="226" cy="140" r="12"/><circle class="hair" cx="128" cy="145" r="9"/><circle class="hair" cx="146" cy="138" r="9"/><circle class="hair" cx="164" cy="135" r="9"/><circle class="hair" cx="184" cy="136" r="9"/><circle class="hair" cx="203" cy="139" r="9"/><circle class="hair" cx="219" cy="148" r="8"/><circle class="hair" cx="112" cy="154" r="10"/><circle class="hair" cx="230" cy="156" r="10"/>
+                                </g>
+                                <g class="curl">
+                                    <path d="M136 100a5 5 0 1 1 6.4 4"/><path d="M164 92a5.5 5.5 0 1 1 7 4.4"/><path d="M196 98a5 5 0 1 1 6.4 4"/><path d="M120 116a4.5 4.5 0 1 1 5.8 3.6"/><path d="M216 114a4.5 4.5 0 1 1 5.8 3.6"/><path d="M178 104a4 4 0 1 1 5.2 3.2"/><path d="M150 106a4 4 0 1 1 5.2 3.2"/><path d="M112.5 137a5.5 5.5 0 1 1 7.1 4.4"/><path d="M148.1 118a5.9 5.9 0 1 1 7.6 4.7"/><path d="M188.1 119a5.9 5.9 0 1 1 7.6 4.7"/><path d="M221 141a5 5 0 1 1 6.6 4"/><path d="M142.2 139a3.8 3.8 0 1 1 4.9 3"/><path d="M180.2 137a3.8 3.8 0 1 1 4.9 3"/><path d="M215.6 149a3.4 3.4 0 1 1 4.4 2.7"/><path d="M225.8 157a4.2 4.2 0 1 1 5.5 3.4"/>
+                                </g>
+                                <!-- sobrancelhas -->
+                                <g class="brow">
+                                    <path d="M133 159q13-6 26-2" class="stroke-ink" stroke-width="4.5" />
+                                    <path d="M181 157q13-4 26 2" class="stroke-ink" stroke-width="4.5" />
+                                </g>
+                                <!-- olhos -->
+                                <g class="eye">
+                                    <ellipse class="white" cx="147" cy="180" rx="9.5" ry="10.5" />
+                                    <g class="pupil" data-cx="147" data-cy="180">
+                                        <circle class="ink" cx="147" cy="181" r="5.6" />
+                                        <circle class="white" cx="149.4" cy="178" r="1.9" />
+                                    </g>
+                                </g>
+                                <g class="eye">
+                                    <ellipse class="white" cx="193" cy="180" rx="9.5" ry="10.5" />
+                                    <g class="pupil" data-cx="193" data-cy="180">
+                                        <circle class="ink" cx="193" cy="181" r="5.6" />
+                                        <circle class="white" cx="195.4" cy="178" r="1.9" />
+                                    </g>
+                                </g>
+                                <!-- óculos retangulares, armação fina -->
+                                <g class="glasses">
+                                    <rect class="lens" x="126" y="165" width="42" height="30" rx="6" />
+                                    <rect class="lens" x="172" y="165" width="42" height="30" rx="6" />
+                                    <path class="frame-top" d="M127 167q20-3 40 0M173 167q20-3 40 0" />
+                                    <path class="frame" d="M168 172q4-3 4 0M126 171l-17 4M214 171l17 4" />
+                                    <path d="M132 188l10-17M178 188l10-17" stroke="#fff" stroke-width="2.4"
+                                        stroke-linecap="round" opacity=".18" />
+                                </g>
+                                <ellipse class="blush" cx="130" cy="208" rx="10" ry="5.5" />
+                                <ellipse class="blush" cx="210" cy="208" rx="10" ry="5.5" />
+                                <path d="M168 197q-7 12 4 14" stroke="#b06f4c" stroke-width="3.5" fill="none"
+                                    stroke-linecap="round" />
+                                <!-- bigode fino -->
+                                <path d="M155 216q15-6 30 0" stroke="#2a1c16" stroke-width="3.2" fill="none"
+                                    stroke-linecap="round" opacity=".7" />
+                                <!-- boca: sorriso fechado de canto -->
+                                <g class="mouth-smile">
+                                    <path d="M156 222q15 6 29-2" stroke="#8a3f30" stroke-width="4" fill="none"
+                                        stroke-linecap="round" />
+                                    <path d="M163 228q8 3 15 0" stroke="#b5655a" stroke-width="2.6" fill="none"
+                                        stroke-linecap="round" opacity=".7" />
+                                </g>
+                                <ellipse class="mouth-o" cx="170" cy="224" rx="7" ry="8" fill="#7a2e1a"
+                                    stroke="#1a1310" stroke-width="3.5" />
+                                <!-- cavanhaque -->
+                                <path d="M163 234q7 4 14 0q1 9-7 12q-8-3-7-12z" fill="#2a1c16" opacity=".6" />
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <div class="strip" aria-hidden="true">
+            <div class="strip-track">
+                <span>Sites sob medida para empresas e pequenos negócios</span>
+                <span>React · TypeScript · Tailwind · Vite</span>
+                <span>Java · Spring Boot · Node.js · Python</span>
+                <span>Landing pages que convertem</span>
+                <span>Automação de processos corporativos</span>
+                <span>Formado em ADS · Centro Universitário Senac</span>
+                <span>São Paulo · atendo todo o Brasil</span>
+                <span>Sites sob medida para empresas e pequenos negócios</span>
+                <span>React · TypeScript · Tailwind · Vite</span>
+                <span>Java · Spring Boot · Node.js · Python</span>
+                <span>Landing pages que convertem</span>
+                <span>Automação de processos corporativos</span>
+                <span>Formado em ADS · Centro Universitário Senac</span>
+                <span>São Paulo · atendo todo o Brasil</span>
+            </div>
+        </div>
+
+        <!-- SOBRE -->
+        <section id="sobre">
+            <div class="wrap">
+                <div class="sec-head">
+                    <div>
+                        <div class="path"><span>~/</span>sobre</div>
+                        <h2>Do layout no Figma ao site no ar.</h2>
+                    </div>
+                </div>
+                <div class="about">
+                    <div class="about-txt">
+                        <p>Sou <strong>Nicolas Rodrigues</strong>, <strong>desenvolvedor web full stack</strong> formado
+                            em <strong>Análise e Desenvolvimento de Sistemas pelo Senac</strong>. Crio sites, landing
+                            pages e sistemas web do zero, com JavaScript, TypeScript, React, Node.js e Java.</p>
+                        <p>Já coloquei no ar sites para agência de marketing, academia de luta, marca de cosméticos,
+                            lounge, demolidora, escritório de certidões e agência de viagens. Cada um com identidade
+                            própria, carregamento rápido e contato direto pelo WhatsApp.</p>
+                        <p>Hoje também desenvolvo na <strong>Gafor</strong>, transportadora com mais de 75 anos que
+                            opera no Brasil e no Mercosul. Lá crio sistemas internos que
+                            <strong>tiram processos do papel e do e-mail</strong>: aprovações, documentos e integrações
+                            entre sistemas, com a mesma atenção a <strong>segurança e desempenho</strong> que levo para
+                            cada site.</p>
+                    </div>
+                    <aside class="spec" aria-label="Resumo">
+                        <div class="spec-top"><i></i><i></i><i></i><span>nicolas.json</span></div>
+                        <dl>
+                            <div>
+                                <dt>formação</dt>
+                                <dd>ADS · Senac <span class="badge-done">concluído</span></dd>
+                            </div>
+                            <div>
+                                <dt>atual</dt>
+                                <dd>Desenvolvedor <em>@ Gafor</em></dd>
+                            </div>
+                            <div>
+                                <dt>base</dt>
+                                <dd>São Paulo, SP</dd>
+                            </div>
+                            <div>
+                                <dt>atende</dt>
+                                <dd>Brasil todo · remoto</dd>
+                            </div>
+                            <div>
+                                <dt>foco</dt>
+                                <dd>sites, sistemas web, automação</dd>
+                            </div>
+                            <div>
+                                <dt>status</dt>
+                                <dd><em>aberto a projetos freelance</em></dd>
+                            </div>
+                        </dl>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVIÇOS -->
+        <section id="servicos">
+            <div class="wrap">
+                <div class="sec-head">
+                    <div>
+                        <div class="path"><span>~/</span>servicos</div>
+                        <h2>Seu negócio merece um site que trabalhe por ele.</h2>
+                    </div>
+                    <p>Projetos feitos sob medida, sem template genérico. Você fala direto com quem desenvolve, do
+                        primeiro rascunho até o site no ar.</p>
+                </div>
+                <div class="svc-grid">
+                    <article class="svc">
+                        <div class="svc-ico"><svg viewBox="0 0 24 24">
+                                <path d="M4 4h16v12H4z" />
+                                <path d="M8 20h8M12 16v4" />
+                                <path d="M8 9h5M8 12h8" />
+                            </svg></div>
+                        <h3>Landing pages</h3>
+                        <p>Uma página focada em converter: lançamento, campanha ou captação de clientes, com animações
+                            leves e carregamento rápido.</p>
+                        <ul>
+                            <li>responsiva</li>
+                            <li>SEO</li>
+                            <li>WhatsApp / formulário</li>
+                        </ul>
+                    </article>
+                    <article class="svc">
+                        <div class="svc-ico"><svg viewBox="0 0 24 24">
+                                <path d="M3 21h18M5 21V8l7-5 7 5v13" />
+                                <path d="M9 21v-6h6v6" />
+                            </svg></div>
+                        <h3>Sites institucionais</h3>
+                        <p>Presença profissional para empresas, clínicas, escritórios e prestadores de serviço, com
+                            páginas que você consegue atualizar.</p>
+                        <ul>
+                            <li>WordPress ou código</li>
+                            <li>domínio + hospedagem</li>
+                            <li>Google Meu Negócio</li>
+                        </ul>
+                    </article>
+                    <article class="svc">
+                        <div class="svc-ico"><svg viewBox="0 0 24 24">
+                                <circle cx="6" cy="6" r="2.5" />
+                                <circle cx="18" cy="6" r="2.5" />
+                                <circle cx="12" cy="18" r="2.5" />
+                                <path d="M8.5 6h7M7.2 8.2l3.6 7.6M16.8 8.2l-3.6 7.6" />
+                            </svg></div>
+                        <h3>Sistemas &amp; automação</h3>
+                        <p>Painéis internos, integrações entre sistemas e fluxos de aprovação que tiram sua equipe do
+                            trabalho repetitivo.</p>
+                        <ul>
+                            <li>APIs REST</li>
+                            <li>workflows</li>
+                            <li>dashboards</li>
+                        </ul>
+                    </article>
+                    <article class="svc">
+                        <div class="svc-ico"><svg viewBox="0 0 24 24">
+                                <path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z" />
+                                <rect x="9" y="11" width="6" height="5" rx="1" />
+                                <path d="M10 11V9.5a2 2 0 014 0V11" />
+                            </svg></div>
+                        <h3>Segurança &amp; manutenção</h3>
+                        <p>HTTPS, backups, atualizações e revisão de vulnerabilidades para o seu site não virar porta de
+                            entrada de problema.</p>
+                        <ul>
+                            <li>SSL/TLS</li>
+                            <li>hardening</li>
+                            <li>suporte mensal</li>
+                        </ul>
+                    </article>
+                </div>
+
+                <div class="process" aria-label="Como funciona um projeto">
+                    <div class="step"><b>1 · briefing</b>
+                        <h4>Conversa</h4>
+                        <p>Entendo seu negócio, público e objetivo do site.</p>
+                    </div>
+                    <div class="step"><b>2 · protótipo</b>
+                        <h4>Layout no Figma</h4>
+                        <p>Você vê e aprova o visual antes de qualquer código.</p>
+                    </div>
+                    <div class="step"><b>3 · código</b>
+                        <h4>Desenvolvimento</h4>
+                        <p>Site rápido, responsivo e seguro, com revisões combinadas.</p>
+                    </div>
+                    <div class="step"><b>4 · deploy</b>
+                        <h4>No ar</h4>
+                        <p>Publicação, domínio, SSL e suporte depois da entrega.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STACK -->
+        <section id="stack">
+            <div class="wrap">
+                <div class="sec-head">
+                    <div>
+                        <div class="path"><span>~/</span>stack</div>
+                        <h2>Ferramentas que uso de verdade.</h2>
+                    </div>
+                    <p>O foco é web: interface e servidor. Junto vem a experiência com automação de processos em
+                        empresa e a infraestrutura que mantém tudo de pé.</p>
+                </div>
+                <div class="stack">
+                    <div class="lane">
+                        <h3>Front-end <span>ui</span></h3>
+                        <p>Interfaces responsivas, animadas e acessíveis.</p>
+                        <div class="tags">
+                            <span>HTML</span><span>CSS</span><span>JavaScript</span><span>TypeScript</span><span>React</span><span>Tailwind</span><span>Bootstrap</span><span>Vite</span><span>WordPress</span><span>Figma</span>
+                        </div>
+                    </div>
+                    <div class="lane">
+                        <h3>Back-end <span>api</span></h3>
+                        <p>APIs, regras de negócio e banco de dados.</p>
+                        <div class="tags"><span>Java</span><span>Spring
+                                Boot</span><span>Node.js</span><span>Python</span><span>REST</span><span>SOAP</span><span>MySQL</span><span>SQL
+                                Server</span><span>JUnit</span></div>
+                    </div>
+                    <div class="lane">
+                        <h3>Automação <span>flow</span></h3>
+                        <p>Fluxos de aprovação, formulários e documentos digitais dentro de empresas.</p>
+                        <div class="tags"><span>Workflows</span><span>TOTVS Fluig</span><span>Power
+                                Automate</span><span>Gestão de documentos</span><span>Integrações ERP</span></div>
+                    </div>
+                    <div class="lane sec">
+                        <h3>Redes &amp; segurança <span>infra</span></h3>
+                        <p>Base sólida para o que vai para produção.</p>
+                        <div class="tags">
+                            <span>TCP/IP</span><span>DNS</span><span>VPN</span><span>Firewall</span><span>SSL/TLS</span><span>OWASP
+                                Top 10</span><span>Hardening</span><span>Git / GitHub</span><span>Deploy</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPERIÊNCIA -->
+        <section id="experiencia">
+            <div class="wrap">
+                <div class="sec-head">
+                    <div>
+                        <div class="path"><span>~/</span>experiencia</div>
+                        <h2>Onde já coloquei a mão na massa.</h2>
+                    </div>
+                </div>
+                <div class="xp-grid">
+                    <div class="timeline">
+                        <article class="job now">
+                            <div class="job-when">2025 — atual</div>
+                            <h3>Gafor<small>Desenvolvedor de Sistemas · Logística, Brasil e Mercosul</small></h3>
+                            <ul>
+                                <li>Desenvolvimento de sistemas internos e automação de processos na plataforma TOTVS
+                                    Fluig (sistema de fluxos de aprovação e documentos da empresa).</li>
+                                <li>Digitalização dos processos de RH: admissão, desligamento, benefícios e requisição
+                                    de vagas, com aprovações automáticas e integração com o sistema de recrutamento.</li>
+                                <li>Gestão de documentos da frota e dos agregados, com telas de consulta e alertas
+                                    automáticos de vencimento.</li>
+                                <li>Hub interno em Python e JavaScript que reúne consultas de vários sistemas em um só
+                                    lugar.</li>
+                                <li>Notificações no Microsoft Teams via Power Automate e piloto de assinatura
+                                    eletrônica.</li>
+                                <li>Atualizações e melhorias no site institucional <a href="https://www.gafor.com.br"
+                                        target="_blank" rel="noopener">gafor.com.br</a>.</li>
+                            </ul>
+                        </article>
+                        <article class="job now">
+                            <div class="job-when">em paralelo · freelance</div>
+                            <h3>Desenvolvedor Web<small>Sites e landing pages para empresas e pequenos negócios</small>
+                            </h3>
+                            <ul>
+                                <li>7 sites publicados, do layout ao domínio: agência digital, academia de Muay Thai,
+                                    marca de cosméticos, cardápio digital, demolidora, serviços cartorários e turismo.
+                                </li>
+                                <li>Sites responsivos, com SEO, animações leves, galerias, catálogos e contato direto
+                                    pelo WhatsApp.</li>
+                                <li>Atendimento direto com o cliente: briefing, protótipo, desenvolvimento, publicação
+                                    e suporte.</li>
+                            </ul>
+                        </article>
+                        <article class="job">
+                            <div class="job-when">01/2024 — 03/2025</div>
+                            <h3>MFX Technology Made Simple<small>Desenvolvedor Web · Especializado em Fluig · São
+                                    Paulo</small></h3>
+                            <ul>
+                                <li>Os clientes enfrentavam dificuldades com processos manuais, sistemas legados e
+                                    baixa integração entre áreas, o que comprometia a eficiência operacional.</li>
+                                <li>Desenvolvi e implementei soluções personalizadas na plataforma TOTVS Fluig, com
+                                    foco em automação de processos, integração com sistemas externos e melhoria da
+                                    experiência dos usuários.</li>
+                                <li>Desenvolvi e mantive aplicações web com JavaScript, jQuery, HTML, CSS, Bootstrap e
+                                    MySQL. Transformei protótipos do Figma em interfaces funcionais, respeitando
+                                    diretrizes de UX/UI.</li>
+                                <li>Trabalhei com equipes multidisciplinares e participei de reuniões com clientes para
+                                    entender demandas, propor soluções e alinhar expectativas.</li>
+                                <li>Resultado: automação de processos críticos, menos retrabalho e mais agilidade nas
+                                    operações dos clientes, além de melhor usabilidade e tempo de resposta dos sistemas.
+                                </li>
+                            </ul>
+                        </article>
+                    </div>
+                    <div class="edu">
+                        <div class="edu-main">
+                            <div class="mono">graduação · concluída</div>
+                            <h3>Análise e Desenvolvimento de Sistemas</h3>
+                            <p>Centro Universitário Senac · 2024 — 2026</p>
+                        </div>
+                        <div class="certs" aria-label="Certificações">
+                            <div class="cert"><span>FullStack Pro</span><span>Sujeito Programador</span></div>
+                            <div class="cert"><span>Full Stack (presencial)</span><span>MFX Academy</span></div>
+                            <div class="cert"><span>JavaScript do Básico ao Avançado</span><span>Udemy · 23,5h</span></div>
+                            <div class="cert"><span>Database Foundations SQL</span><span>Oracle</span></div>
+                            <div class="cert"><span>Desenvolvimento de Processos BPM/ECM Advanced</span><span>TOTVS</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJETOS -->
+        <section id="projetos">
+            <div class="wrap">
+                <div class="sec-head">
+                    <div>
+                        <div class="path"><span>~/</span>projetos</div>
+                        <h2>Trabalhos selecionados.</h2>
+                    </div>
+                    <div class="filters" role="group" aria-label="Filtrar projetos" id="filters"></div>
+                </div>
+                <div class="proj-grid" id="proj-grid"></div>
+            </div>
+        </section>
+
+        <!-- CONTATO -->
+        <div class="wrap">
+            <section id="contato" class="contact" style="padding-block:0">
+                <div class="contact-l">
+                    <div class="path"><span>~/</span>contato</div>
+                    <h2>Bora tirar sua ideia do <span>papel</span>?</h2>
+                    <p>Vaga, freelance ou só uma dúvida sobre seu site: respondo pessoalmente, normalmente no mesmo dia.
+                    </p>
+                    <div class="mail">
+                        <code id="email">dev.nicolasalves@gmail.com</code>
+                        <button type="button" id="copy-email">Copiar</button>
+                    </div>
+                    <div class="toast" id="toast-email" aria-live="polite"></div>
+                    <div class="socials">
+                        <a class="btn btn-ghost" href="https://wa.me/5511945483576" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 18.2a8.2 8.2 0 01-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1112 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 01-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 00-.7.3 3 3 0 00-.9 2.2 5.2 5.2 0 001.1 2.7 11.8 11.8 0 004.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z" />
+                            </svg>WhatsApp</a>
+                        <a class="btn btn-ghost" href="https://www.linkedin.com/in/nicolas-rodrigues-developer"
+                            target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M4.98 3.5a2.5 2.5 0 11-.01 5 2.5 2.5 0 01.01-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.6 8.65 21 11.2 21 14.5V21h-4v-5.8c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.5-2.25 3.1V21H9z" />
+                            </svg>LinkedIn</a>
+                        <a class="btn btn-ghost" href="https://github.com/NicolasRAlves" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.1-1.47-1.1-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 015 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0012 2z" />
+                            </svg>GitHub</a>
+                        <a class="btn btn-ghost"
+                            href="https://nicolasralves.github.io/NicolasPortifolio/NicolasRAlves%20CV.pdf"
+                            target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 3H6a1 1 0 00-1 1v16a1 1 0 001 1h12a1 1 0 001-1V8z" />
+                                <path d="M14 3v5h5M9 13h6M9 17h4" />
+                            </svg>Currículo</a>
+                    </div>
+                </div>
+
+                <div class="contact-r">
+                    <h3>Monte seu pedido de orçamento</h3>
+                    <p class="hint">Escolha as opções e me mande a mensagem pronta no WhatsApp ou por e-mail.</p>
+                    <div class="field">
+                        <label id="lbl-tipo">Tipo de projeto</label>
+                        <div class="chips-pick" role="group" aria-labelledby="lbl-tipo" id="pick-tipo">
+                            <button type="button" aria-pressed="true">Landing page</button>
+                            <button type="button" aria-pressed="false">Site institucional</button>
+                            <button type="button" aria-pressed="false">Sistema / automação</button>
+                            <button type="button" aria-pressed="false">Manutenção / segurança</button>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="prazo">Prazo desejado</label>
+                        <select id="prazo">
+                            <option>Sem pressa</option>
+                            <option selected>Em até 1 mês</option>
+                            <option>Em até 2 semanas</option>
+                            <option>Urgente</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="ideia">Conte sobre o projeto</label>
+                        <textarea id="ideia"
+                            placeholder="Ex.: tenho uma loja de roupas e quero mostrar a coleção e receber pedidos pelo WhatsApp."></textarea>
+                    </div>
+                    <div class="brief-out" id="brief-out"></div>
+                    <div class="brief-actions">
+                        <a class="btn btn-or" id="wa-brief" href="#" target="_blank" rel="noopener">Enviar no WhatsApp</a>
+                        <a class="btn btn-ghost" id="mail-brief" href="#">Abrir no e-mail</a>
+                        <button type="button" class="btn btn-ghost" id="copy-brief">Copiar</button>
+                    </div>
+                    <div class="toast" id="toast-brief" aria-live="polite"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="wrap">
+            <span>© 2026 Nicolas Rodrigues · feito à mão, com café e código</span>
+            <a href="#topo" class="brand" style="font-size:13.5px">voltar ao topo ↑</a>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            /* ---------- perfil do visitante ---------- */
+            const modes = {
+                empresa: {
+                    text: '<strong>Desenvolvedor web full stack.</strong> React, TypeScript, Node.js e Java no dia a dia, com experiência em sistemas internos e automação de processos para empresas.',
+                    main: ['Ver experiência', '#experiencia'], alt: ['Ver projetos', '#projetos'],
+                    bubble: 'Bora conversar sobre a vaga?'
+                },
+                site: {
+                    text: '<strong>Sites sob medida, rápidos e seguros.</strong> Landing pages e sites institucionais com identidade própria, do layout no Figma até o site no ar. Já são 7 no ar.',
+                    main: ['Pedir orçamento', '#contato'], alt: ['Ver serviços', '#servicos'],
+                    bubble: 'Bora criar seu site?'
+                }
+            };
+            const whoText = document.getElementById('who-text'), ctaMain = document.getElementById('cta-main'), ctaAlt = document.getElementById('cta-alt');
+            function setMode(m, talk) {
+                const d = modes[m];
+                whoText.innerHTML = d.text;
+                ctaMain.textContent = d.main[0]; ctaMain.href = d.main[1];
+                ctaAlt.textContent = d.alt[0]; ctaAlt.href = d.alt[1];
+                document.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.mode === m));
+                try { localStorage.setItem('nico-mode', m) } catch (e) { }
+                if (talk) say(d.bubble);
+            }
+            document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode, true)));
+
+            /* ---------- mascote ---------- */
+            const nico = document.getElementById('nico'), head = document.getElementById('head'), bubble = document.getElementById('bubble');
+            const pupils = [...nico.querySelectorAll('.pupil')];
+            const lines = ['Oi! Eu sou o Nico 👋', 'Bora tirar seu site do papel?', 'Seu site carrega rápido?', 'Responsivo no celular? ✓', 'HTTPS ativado, né?', 'Café + código = deploy'];
+            let li = 0, sayTimer;
+            function say(t) {
+                bubble.classList.add('swap');
+                clearTimeout(sayTimer);
+                sayTimer = setTimeout(() => { bubble.textContent = t; bubble.classList.remove('swap') }, 250);
+            }
+            if (!reduce) setInterval(() => { li = (li + 1) % lines.length; say(lines[li]) }, 4800);
+
+            /* olhar: alvo normalizado (-1..1) suavizado a cada frame */
+            const clamp = v => Math.max(-1, Math.min(1, v));
+            let tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+            function frame() {
+                cx += (tx - cx) * .18; cy += (ty - cy) * .18;
+                pupils.forEach(p => p.setAttribute('transform', `translate(${(cx * 4.5).toFixed(2)} ${(cy * 5).toFixed(2)})`));
+                head.style.transform = `rotate(${(cx * 6).toFixed(2)}deg)`;
+                raf = Math.abs(tx - cx) + Math.abs(ty - cy) > .002 ? requestAnimationFrame(frame) : null;
+            }
+            function look(x, y) { tx = clamp(x); ty = clamp(y); if (!raf) raf = requestAnimationFrame(frame) }
+
+            let tiltOn = false;
+            if (!reduce) {
+                // computador: segue o mouse
+                window.addEventListener('pointermove', e => {
+                    if (tiltOn && e.pointerType !== 'mouse') return;
+                    const r = nico.getBoundingClientRect(), s = r.width / 340;
+                    const dx = e.clientX - (r.left + 170 * s), dy = e.clientY - (r.top + 180 * s), d = Math.hypot(dx, dy) || 1;
+                    const k = Math.min(1, d / 220);
+                    look(dx / d * k, dy / d * k);
+                }, { passive: true });
+
+                // celular: segue a inclinação do aparelho
+                let base = null, wander = null;
+                function onTilt(e) {
+                    if (e.beta == null || e.gamma == null) return;
+                    const a = (screen.orientation && screen.orientation.angle) || window.orientation || 0;
+                    let x = e.gamma, y = e.beta;
+                    if (a === 90) { x = e.beta; y = -e.gamma } else if (a === -90 || a === 270) { x = -e.beta; y = e.gamma }
+                    if (base === null) base = y;
+                    base += (y - base) * .01; // recalibra devagar ao jeito que a pessoa segura o celular
+                    if (!tiltOn) { tiltOn = true; clearInterval(wander) }
+                    look(x / 22, (y - base) / 16);
+                }
+                const listenTilt = () => window.addEventListener('deviceorientation', onTilt, { passive: true });
+                const touch = matchMedia('(pointer: coarse)').matches;
+                if (touch && 'DeviceOrientationEvent' in window) {
+                    listenTilt();
+                    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                        // iPhone: o sensor só libera depois de um toque na tela
+                        document.addEventListener('touchend', () => {
+                            if (!tiltOn) DeviceOrientationEvent.requestPermission().catch(() => { });
+                        }, { once: true });
+                    }
+                }
+                // sem sensor: os olhos passeiam sozinhos
+                if (touch) wander = setInterval(() => { if (!tiltOn) look(Math.random() * 2 - 1, Math.random() * 1.4 - .7) }, 2600);
+            }
+
+            const pokes = ['Ei! Isso faz cócegas 😆', 'Clicou? Já posso começar!', 'Mais um clique e eu cobro hora extra', 'Tô aqui, tô aqui!'];
+            let pk = 0;
+            nico.addEventListener('click', () => {
+                nico.classList.remove('nod'); void nico.getBoundingClientRect();
+                nico.classList.add('nod', 'surprised');
+                say(pokes[pk++ % pokes.length]);
+                setTimeout(() => nico.classList.remove('surprised'), 700);
+                setTimeout(() => nico.classList.remove('nod'), 750);
+            });
+
+            /* ---------- projetos ---------- */
+            const projects = [
+                { t: 'Nexo N', w: 'Agência digital · Landing page', k: 'web', d: 'Site da agência de estratégia, design e gestão: animações, formulário com reCAPTCHA, envio por e-mail e consentimento de cookies.', tags: ['React', 'TypeScript', 'Tailwind'], url: 'https://www.agencianexon.com.br/', site: 'agencianexon.com.br', img: 'nexon' },
+                { t: 'CT GBoxe Thai', w: 'Academia de Muay Thai e Boxe', k: 'web', d: 'Site oficial com grade de horários filtrável, planos, aula grátis agendada pelo WhatsApp, galeria, vídeos e depoimentos.', tags: ['Tailwind', 'JavaScript'], url: 'https://www.ctgboxethai.com.br/', site: 'ctgboxethai.com.br', img: 'ctgboxe' },
+                { t: 'Youse Cosmetics', w: 'Marca de cosméticos capilares', k: 'web', d: 'Site oficial da marca: vitrine com 12 produtos e modo de uso, antes e depois, onde comprar e captação de distribuidores.', tags: ['Tailwind', 'JavaScript'], url: 'https://www.yousecosmetics.com.br/', site: 'yousecosmetics.com.br', img: 'youse' },
+                { t: 'Demolidora Soberano', w: 'Demolição e engenharia · SP', k: 'web', d: 'Site institucional com serviços, certificações, portfólio de obras com fotos e vídeos, números da empresa e carrossel de clientes.', tags: ['Next.js', 'TypeScript', 'Framer Motion'], url: 'https://demolidora-soberano.vercel.app/', site: 'demolidora-soberano.vercel.app', img: 'soberano' },
+                { t: 'FASS Certidões', w: 'Serviços cartorários', k: 'web', d: 'Catálogo com mais de 90 certidões em abas (federal, estadual, municipal), pedido por formulário enviado ao WhatsApp e FAQ.', tags: ['Tailwind', 'JavaScript'], url: 'https://www.fsdocs.com.br/', site: 'fsdocs.com.br', img: 'fass' },
+                { t: 'HGP Destinos', w: 'Turismo · Resorts em Porto de Galinhas', k: 'web', d: 'Landing page de pacotes em resorts: seleção de datas, galeria filtrada por resort, tour virtual 360° e dúvidas frequentes.', tags: ['Tailwind', 'Flatpickr'], url: 'https://hgpdestinos.vercel.app/', site: 'hgpdestinos.vercel.app', img: 'hgp' },
+                { t: 'Dune Lounge', w: 'Cardápio digital', k: 'web', d: 'Cardápio mobile com categorias, busca de produtos, horários, localização e reserva direto pelo WhatsApp.', tags: ['HTML', 'CSS', 'JavaScript'], url: 'https://dunelounge.github.io/cardapio', site: 'dunelounge.github.io', img: 'dune' },
+                { t: 'Site Gafor', w: 'Gafor · Site institucional', k: 'web', d: 'Atualizações e melhorias no site de uma das maiores transportadoras do país, com operação no Brasil e no Mercosul.', tags: ['Front-end', 'Manutenção'], url: 'https://www.gafor.com.br/', site: 'gafor.com.br', img: 'gafor', maint: true },
+                { t: 'Hub interno', w: 'Gafor · Sistema web', k: 'back', d: 'Portal interno que reúne consultas de diversos sistemas e bancos de dados em uma única tela para as equipes.', tags: ['Python', 'JavaScript', 'SQL'], code: ['$ hub serve --env prod', '> conectando bancos... ok', '> 6 integrações ativas', '> GET /consultas 200'] },
+                { t: 'API de Transações', w: 'Desafio Itaú', k: 'back', d: 'API REST que registra transações e calcula estatísticas dos últimos 60 segundos, com dados em memória e testes.', tags: ['Java', 'Spring Boot', 'JUnit'], url: 'https://github.com/NicolasRAlves/springboot.desafio.itau', code: ['POST /transacao  201', 'GET /estatistica  200', '{ "count": 12,', '  "avg": 48.30 }'] },
+                { t: 'Montagem de PC', w: 'Projeto acadêmico', k: 'back', d: 'Sistema para montar um computador personalizado verificando a compatibilidade entre os componentes escolhidos.', tags: ['Spring Boot', 'Thymeleaf'], url: 'https://github.com/NicolasRAlves/springboot.store', code: ['cpu: Ryzen 5 ✓', 'placa: B550 ✓', 'ram: DDR4 16GB ✓', '> build compatível'] },
+                { t: 'JavaFarm', w: 'Jogo educativo', k: 'back', d: 'Simulador de fazenda com plantio, colheita e celeiro, usado para praticar herança e polimorfismo em Java.', tags: ['Java', 'JavaFX', 'POO'], url: 'https://github.com/NicolasRAlves/javafarm', code: ['class Milho extends', '  Cultivo {', '  colher() { ... }', '}'] },
+                { t: 'Automação de RH', w: 'Gafor · TOTVS Fluig', k: 'flow', d: 'Admissão, desligamento, benefícios e requisição de vagas 100% digitais, com aprovações automáticas e integração com o sistema de recrutamento.', tags: ['Workflow', 'Fluig', 'REST'], flow: ['Pedido', 'Gestor', 'RH', 'Arquivo'] },
+                { t: 'Documentos da frota', w: 'Gafor · TOTVS Fluig', k: 'flow', d: 'Pastas por operação, telas de consulta e alertas por e-mail para documentos de veículos e agregados perto do vencimento.', tags: ['Workflow', 'Fluig', 'Alertas'], flow: ['Upload', 'Validação', 'Alerta', 'Arquivo'] },
+                { t: 'Solicitação de Pagamento', w: 'MFX · TOTVS Fluig', k: 'flow', d: 'Pagamentos centralizados com aprovação por gerência e diretoria, anexos fiscais, rateio por centro de custo e integração com ERP.', tags: ['Workflow', 'SOAP', 'ERP'], flow: ['Pedido', 'Gerência', 'Diretoria', 'ERP'] },
+                { t: 'Inclusão de Presença', w: 'MFX · TOTVS Fluig', k: 'flow', d: 'Controle de presença em aulas e laboratórios com turma, alunos presentes e ausentes, anexos e validações.', tags: ['Workflow', 'jQuery'], flow: ['Professor', 'Turma', 'Validação', 'Registro'] }
+            ];
+            const kinds = { all: 'Todos', web: 'Sites', back: 'Sistemas & APIs', flow: 'Automação' };
+            const kindLabel = { web: 'site', back: 'sistema', flow: 'automação' };
+
+            function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])) }
+            function thumbFlow(f) {
+                const xs = [30, 120, 210, 300];
+                let s = '<svg viewBox="0 0 360 225" aria-hidden="true"><defs><pattern id="g" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#2c2521"/></pattern></defs><rect width="360" height="225" fill="url(#g)"/>';
+                s += '<path d="M60 112H330" stroke="#3a312b" stroke-width="2" stroke-dasharray="5 5"/>';
+                f.forEach((n, i) => {
+                    const x = xs[i], hot = i === 2;
+                    if (i === 1) {
+                        s += `<g transform="translate(${x + 30} 112) rotate(45)"><rect x="-17" y="-17" width="34" height="34" rx="4" fill="#1a1614" stroke="#ff7a1a" stroke-width="2"/></g>`;
+                    } else {
+                        s += `<rect x="${x}" y="94" width="60" height="36" rx="9" fill="${hot ? '#ff7a1a' : '#1a1614'}" stroke="${hot ? '#ff7a1a' : '#3a312b'}" stroke-width="2"/>`;
+                    }
+                    s += `<text x="${x + 30}" y="160" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#a99b90">${esc(n)}</text>`;
+                });
+                s += '<circle cx="30" cy="112" r="6" fill="#ff7a1a"/><path d="M200 70l12 0" stroke="#ff7a1a" stroke-width="2"/></svg>';
+                return s;
+            }
+            function thumbWeb(site) {
+                return `<svg viewBox="0 0 360 225" aria-hidden="true"><rect x="28" y="28" width="304" height="200" rx="10" fill="#0d0b0a" stroke="#3a312b" stroke-width="2"/><path d="M28 50h304" stroke="#3a312b" stroke-width="2"/><circle cx="44" cy="39" r="4" fill="#ff7a1a"/><circle cx="58" cy="39" r="4" fill="#3a312b"/><circle cx="72" cy="39" r="4" fill="#3a312b"/><rect x="100" y="33" width="160" height="12" rx="6" fill="#1a1614"/><text x="180" y="42.5" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#6f645b">${esc(site)}</text><rect x="50" y="76" width="150" height="16" rx="4" fill="#f5eee8"/><rect x="50" y="98" width="110" height="16" rx="4" fill="#ff7a1a"/><rect x="50" y="126" width="140" height="6" rx="3" fill="#3a312b"/><rect x="50" y="138" width="120" height="6" rx="3" fill="#3a312b"/><rect x="50" y="158" width="64" height="20" rx="10" fill="#ff7a1a"/><circle cx="262" cy="122" r="44" fill="#ff7a1a" opacity=".18"/><circle cx="262" cy="122" r="26" fill="none" stroke="#ff7a1a" stroke-width="2"/><path d="M245 196h80" stroke="#3a312b" stroke-width="6" stroke-linecap="round"/></svg>`;
+            }
+            function thumbCode(lines) {
+                let s = '<svg viewBox="0 0 360 225" aria-hidden="true"><rect width="360" height="225" fill="#100d0c"/><path d="M0 26h360" stroke="#2c2521"/><circle cx="16" cy="13" r="4" fill="#ff7a1a"/><circle cx="30" cy="13" r="4" fill="#3a312b"/><circle cx="44" cy="13" r="4" fill="#3a312b"/>';
+                lines.forEach((l, i) => {
+                    const c = i === 0 ? '#ff7a1a' : (/✓|200|201|ok|ativas/.test(l) ? '#6ee7a8' : '#d8ccc2');
+                    s += `<text x="26" y="${70 + i * 30}" font-family="JetBrains Mono, monospace" font-size="15" fill="${c}">${esc(l)}</text>`;
+                });
+                s += '<rect x="26" y="' + (70 + lines.length * 30 - 14) + '" width="9" height="17" fill="#ff7a1a"><animate attributeName="opacity" values="1;0;1" dur="1.1s" repeatCount="indefinite"/></rect></svg>';
+                return s;
+            }
+            const grid = document.getElementById('proj-grid');
+            grid.innerHTML = projects.map(p => {
+                const thumb = p.img ? `<img src="assets/projetos/${p.img}.webp" alt="Página inicial do site ${esc(p.t)}" loading="lazy" width="960" height="600" onerror="this.outerHTML=this.dataset.fb" data-fb="${esc(thumbWeb(p.site))}">`
+                    : p.flow ? thumbFlow(p.flow) : p.site ? thumbWeb(p.site) : thumbCode(p.code);
+                const tag = p.url ? 'a' : 'article';
+                const attrs = p.url ? ` href="${p.url}" target="_blank" rel="noopener"` : '';
+                const go = p.url ? '<span class="go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>'
+                    : '<span class="go lock" title="Projeto interno" aria-label="Projeto interno"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></span>';
+                return `<${tag} class="proj" data-k="${p.k}"${attrs}>
+      <div class="thumb">${thumb}<span class="kind">${kindLabel[p.k]}</span></div>
+      <div class="proj-body"><div class="where">${esc(p.w)}</div><h3>${esc(p.t)}</h3><p>${esc(p.d)}</p>${p.site ? `<div class="domain">${esc(p.site)}</div>` : ''}
+      <div class="proj-foot"><div class="tags">${p.tags.map(t => `<span>${esc(t)}</span>`).join('')}</div>${go}</div></div></${tag}>`;
+            }).join('');
+
+            const filters = document.getElementById('filters');
+            filters.innerHTML = Object.entries(kinds).map(([k, v]) => {
+                const n = k === 'all' ? projects.length : projects.filter(p => p.k === k).length;
+                return `<button type="button" id="f-${k}" data-k="${k}" aria-pressed="false">${v}<em>${n}</em></button>`;
+            }).join('');
+            function filterBy(k) {
+                filters.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x.dataset.k === k));
+                grid.querySelectorAll('.proj').forEach(c => c.hidden = !(k === 'all' || c.dataset.k === k));
+            }
+            filters.addEventListener('click', e => {
+                const b = e.target.closest('button'); if (b) filterBy(b.dataset.k);
+            });
+            filterBy('web');
+
+            /* ---------- copiar ---------- */
+            function copy(text, toastEl, ok) {
+                const done = () => { toastEl.textContent = ok; setTimeout(() => toastEl.textContent = '', 2600) };
+                const fallback = () => { toastEl.textContent = 'Selecione o texto e copie com Ctrl+C.' };
+                try {
+                    navigator.clipboard.writeText(text).then(done).catch(fallback);
+                } catch (e) { fallback() }
+            }
+            document.getElementById('copy-email').addEventListener('click', () => {
+                copy(document.getElementById('email').textContent, document.getElementById('toast-email'), 'E-mail copiado ✓');
+            });
+
+            /* ---------- pedido de orçamento ---------- */
+            const pick = document.getElementById('pick-tipo'), prazo = document.getElementById('prazo'), ideia = document.getElementById('ideia');
+            const out = document.getElementById('brief-out'), mailA = document.getElementById('mail-brief'), waA = document.getElementById('wa-brief');
+            function brief() {
+                const tipo = pick.querySelector('[aria-pressed="true"]').textContent;
+                const txt = `Olá, Nicolas! Vi seu portfólio e quero um orçamento.\n\nProjeto: ${tipo}\nPrazo: ${prazo.value}\nSobre: ${ideia.value.trim() || '(descreva aqui)'}`;
+                out.textContent = txt;
+                mailA.href = 'mailto:dev.nicolasalves@gmail.com?subject=' + encodeURIComponent('Orçamento: ' + tipo) + '&body=' + encodeURIComponent(txt);
+                waA.href = 'https://wa.me/5511945483576?text=' + encodeURIComponent(txt);
+                return txt;
+            }
+            pick.addEventListener('click', e => {
+                const b = e.target.closest('button'); if (!b) return;
+                pick.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+                brief();
+            });
+            prazo.addEventListener('change', brief); ideia.addEventListener('input', brief);
+            document.getElementById('copy-brief').addEventListener('click', () => copy(brief(), document.getElementById('toast-brief'), 'Mensagem copiada ✓ Agora é só colar no e-mail ou LinkedIn.'));
+            brief();
+
+            let start = 'empresa';
+            try { const s = localStorage.getItem('nico-mode'); if (modes[s]) start = s } catch (e) { }
+            if (location.hash === '#servicos' || location.hash === '#contato') start = 'site';
+            setMode(start, false);
+        })();
+    </script>
+</body>
+
+</html>
