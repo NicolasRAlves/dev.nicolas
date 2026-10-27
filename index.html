@@ -40,18 +40,31 @@
             box-sizing: border-box
         }
 
+        /* trava o arrasto lateral no celular: corta o que passar da largura,
+           sem efeito elástico para os lados e só rolagem vertical (zoom continua liberado) */
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+            overflow-x: clip;
+            overscroll-behavior-x: none
+        }
+
         html {
-            scroll-behavior: smooth
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%
         }
 
         body {
+            margin: 0;
             background: var(--bg);
             color: var(--fg);
             font-family: var(--f-body);
             font-size: 16px;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden
+            touch-action: pan-y pinch-zoom
         }
 
         body::before {
@@ -447,15 +460,26 @@
 
         .ring {
             position: absolute;
-            inset: 6% 2% 2%;
-            border: 1px dashed rgba(255, 122, 26, .28);
-            border-radius: 50%;
+            /* o giro anima só o tracejado (sem transform): a caixa não cresce nem vaza da tela */
+            left: 3%;
+            top: 5%;
+            width: 94%;
+            height: auto;
+            overflow: visible
+        }
+
+        .ring circle {
+            fill: none;
+            stroke: rgba(255, 122, 26, .3);
+            stroke-width: 1px;
+            vector-effect: non-scaling-stroke;
+            stroke-dasharray: 1 1;
             animation: spin 60s linear infinite
         }
 
         @keyframes spin {
             to {
-                transform: rotate(360deg)
+                stroke-dashoffset: -200
             }
         }
 
@@ -1814,8 +1838,10 @@
                 </div>
 
                 <div class="stage rise d3">
-                    <div class="ring" aria-hidden="true"></div>
-                    <div class="bubble" id="bubble" aria-live="polite">Oi! Eu sou o Nico 👋</div>
+                    <svg class="ring" viewBox="0 0 100 100" aria-hidden="true">
+                        <circle cx="50" cy="50" r="49.7" pathLength="200" />
+                    </svg>
+                    <div class="bubble" id="bubble" aria-live="polite">Oi! Eu sou o Nick 👋</div>
                     <div class="chip c1" aria-hidden="true">&lt;/&gt;</div>
                     <div class="chip c2" aria-hidden="true"><svg viewBox="0 0 24 24">
                             <path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z" />
@@ -1937,14 +1963,14 @@
                 <span>Java · Spring Boot · Node.js · Python</span>
                 <span>Landing pages que convertem</span>
                 <span>Automação de processos corporativos</span>
-                <span>Formado em ADS · Centro Universitário Senac</span>
+                <span>Formado em Análise e Desenvolvimento de Sistemas · Senac</span>
                 <span>São Paulo · atendo todo o Brasil</span>
                 <span>Sites sob medida para empresas e pequenos negócios</span>
                 <span>React · TypeScript · Tailwind · Vite</span>
                 <span>Java · Spring Boot · Node.js · Python</span>
                 <span>Landing pages que convertem</span>
                 <span>Automação de processos corporativos</span>
-                <span>Formado em ADS · Centro Universitário Senac</span>
+                <span>Formado em Análise e Desenvolvimento de Sistemas · Senac</span>
                 <span>São Paulo · atendo todo o Brasil</span>
             </div>
         </div>
@@ -1966,7 +1992,7 @@
                         <p>Já coloquei no ar sites para agência de marketing, academia de luta, marca de cosméticos,
                             lounge, demolidora, escritório de certidões e agência de viagens. Cada um com identidade
                             própria, carregamento rápido e contato direto pelo WhatsApp.</p>
-                        <p>Hoje também desenvolvo na <strong>Gafor</strong>, transportadora com mais de 75 anos que
+                        <p>Hoje também desenvolvo na <strong>GAFOR</strong>, transportadora com mais de 75 anos que
                             opera no Brasil e no Mercosul. Lá crio sistemas internos que
                             <strong>tiram processos do papel e do e-mail</strong>: aprovações, documentos e integrações
                             entre sistemas, com a mesma atenção a <strong>segurança e desempenho</strong> que levo para
@@ -1977,11 +2003,11 @@
                         <dl>
                             <div>
                                 <dt>formação</dt>
-                                <dd>ADS · Senac <span class="badge-done">concluído</span></dd>
+                                <dd>Análise e Desenvolvimento de Sistemas · Senac <span class="badge-done">concluído</span></dd>
                             </div>
                             <div>
                                 <dt>atual</dt>
-                                <dd>Desenvolvedor <em>@ Gafor</em></dd>
+                                <dd>Desenvolvedor Web <em>@&nbsp;GAFOR</em></dd>
                             </div>
                             <div>
                                 <dt>base</dt>
@@ -2156,7 +2182,7 @@
                     <div class="timeline">
                         <article class="job now">
                             <div class="job-when">2025 — atual</div>
-                            <h3>Gafor<small>Desenvolvedor de Sistemas · Logística, Brasil e Mercosul</small></h3>
+                            <h3>GAFOR<small>Desenvolvedor Web · Especializado em Fluig e Sistemas Internos</small></h3>
                             <ul>
                                 <li>Desenvolvimento de sistemas internos e automação de processos na plataforma TOTVS
                                     Fluig (sistema de fluxos de aprovação e documentos da empresa).</li>
@@ -2357,7 +2383,7 @@
             /* ---------- mascote ---------- */
             const nico = document.getElementById('nico'), head = document.getElementById('head'), bubble = document.getElementById('bubble');
             const pupils = [...nico.querySelectorAll('.pupil')];
-            const lines = ['Oi! Eu sou o Nico 👋', 'Bora tirar seu site do papel?', 'Seu site carrega rápido?', 'Responsivo no celular? ✓', 'HTTPS ativado, né?', 'Café + código = deploy'];
+            const lines = ['Oi! Eu sou o Nick 👋', 'Bora tirar seu site do papel?', 'Seu site carrega rápido?', 'Responsivo no celular? ✓', 'HTTPS ativado, né?', 'Café + código = deploy'];
             let li = 0, sayTimer;
             function say(t) {
                 bubble.classList.add('swap');
@@ -2434,13 +2460,13 @@
                 { t: 'FASS Certidões', w: 'Serviços cartorários', k: 'web', d: 'Catálogo com mais de 90 certidões em abas (federal, estadual, municipal), pedido por formulário enviado ao WhatsApp e FAQ.', tags: ['Tailwind', 'JavaScript'], url: 'https://www.fsdocs.com.br/', site: 'fsdocs.com.br', img: 'fass' },
                 { t: 'HGP Destinos', w: 'Turismo · Resorts em Porto de Galinhas', k: 'web', d: 'Landing page de pacotes em resorts: seleção de datas, galeria filtrada por resort, tour virtual 360° e dúvidas frequentes.', tags: ['Tailwind', 'Flatpickr'], url: 'https://hgpdestinos.vercel.app/', site: 'hgpdestinos.vercel.app', img: 'hgp' },
                 { t: 'Dune Lounge', w: 'Cardápio digital', k: 'web', d: 'Cardápio mobile com categorias, busca de produtos, horários, localização e reserva direto pelo WhatsApp.', tags: ['HTML', 'CSS', 'JavaScript'], url: 'https://dunelounge.github.io/cardapio', site: 'dunelounge.github.io', img: 'dune' },
-                { t: 'Site Gafor', w: 'Gafor · Site institucional', k: 'web', d: 'Atualizações e melhorias no site de uma das maiores transportadoras do país, com operação no Brasil e no Mercosul.', tags: ['Front-end', 'Manutenção'], url: 'https://www.gafor.com.br/', site: 'gafor.com.br', img: 'gafor', maint: true },
-                { t: 'Hub interno', w: 'Gafor · Sistema web', k: 'back', d: 'Portal interno que reúne consultas de diversos sistemas e bancos de dados em uma única tela para as equipes.', tags: ['Python', 'JavaScript', 'SQL'], code: ['$ hub serve --env prod', '> conectando bancos... ok', '> 6 integrações ativas', '> GET /consultas 200'] },
+                { t: 'Site GAFOR', w: 'GAFOR · Site institucional', k: 'web', d: 'Atualizações e melhorias no site de uma das maiores transportadoras do país, com operação no Brasil e no Mercosul.', tags: ['Front-end', 'Manutenção'], url: 'https://www.gafor.com.br/', site: 'gafor.com.br', img: 'gafor', maint: true },
+                { t: 'Hub interno', w: 'GAFOR · Sistema web', k: 'back', d: 'Portal interno que reúne consultas de diversos sistemas e bancos de dados em uma única tela para as equipes.', tags: ['Python', 'JavaScript', 'SQL'], code: ['$ hub serve --env prod', '> conectando bancos... ok', '> 6 integrações ativas', '> GET /consultas 200'] },
                 { t: 'API de Transações', w: 'Desafio Itaú', k: 'back', d: 'API REST que registra transações e calcula estatísticas dos últimos 60 segundos, com dados em memória e testes.', tags: ['Java', 'Spring Boot', 'JUnit'], url: 'https://github.com/NicolasRAlves/springboot.desafio.itau', code: ['POST /transacao  201', 'GET /estatistica  200', '{ "count": 12,', '  "avg": 48.30 }'] },
                 { t: 'Montagem de PC', w: 'Projeto acadêmico', k: 'back', d: 'Sistema para montar um computador personalizado verificando a compatibilidade entre os componentes escolhidos.', tags: ['Spring Boot', 'Thymeleaf'], url: 'https://github.com/NicolasRAlves/springboot.store', code: ['cpu: Ryzen 5 ✓', 'placa: B550 ✓', 'ram: DDR4 16GB ✓', '> build compatível'] },
                 { t: 'JavaFarm', w: 'Jogo educativo', k: 'back', d: 'Simulador de fazenda com plantio, colheita e celeiro, usado para praticar herança e polimorfismo em Java.', tags: ['Java', 'JavaFX', 'POO'], url: 'https://github.com/NicolasRAlves/javafarm', code: ['class Milho extends', '  Cultivo {', '  colher() { ... }', '}'] },
-                { t: 'Automação de RH', w: 'Gafor · TOTVS Fluig', k: 'flow', d: 'Admissão, desligamento, benefícios e requisição de vagas 100% digitais, com aprovações automáticas e integração com o sistema de recrutamento.', tags: ['Workflow', 'Fluig', 'REST'], flow: ['Pedido', 'Gestor', 'RH', 'Arquivo'] },
-                { t: 'Documentos da frota', w: 'Gafor · TOTVS Fluig', k: 'flow', d: 'Pastas por operação, telas de consulta e alertas por e-mail para documentos de veículos e agregados perto do vencimento.', tags: ['Workflow', 'Fluig', 'Alertas'], flow: ['Upload', 'Validação', 'Alerta', 'Arquivo'] },
+                { t: 'Automação de RH', w: 'GAFOR · TOTVS Fluig', k: 'flow', d: 'Admissão, desligamento, benefícios e requisição de vagas 100% digitais, com aprovações automáticas e integração com o sistema de recrutamento.', tags: ['Workflow', 'Fluig', 'REST'], flow: ['Pedido', 'Gestor', 'RH', 'Arquivo'] },
+                { t: 'Documentos da frota', w: 'GAFOR · TOTVS Fluig', k: 'flow', d: 'Pastas por operação, telas de consulta e alertas por e-mail para documentos de veículos e agregados perto do vencimento.', tags: ['Workflow', 'Fluig', 'Alertas'], flow: ['Upload', 'Validação', 'Alerta', 'Arquivo'] },
                 { t: 'Solicitação de Pagamento', w: 'MFX · TOTVS Fluig', k: 'flow', d: 'Pagamentos centralizados com aprovação por gerência e diretoria, anexos fiscais, rateio por centro de custo e integração com ERP.', tags: ['Workflow', 'SOAP', 'ERP'], flow: ['Pedido', 'Gerência', 'Diretoria', 'ERP'] },
                 { t: 'Inclusão de Presença', w: 'MFX · TOTVS Fluig', k: 'flow', d: 'Controle de presença em aulas e laboratórios com turma, alunos presentes e ausentes, anexos e validações.', tags: ['Workflow', 'jQuery'], flow: ['Professor', 'Turma', 'Validação', 'Registro'] }
             ];
